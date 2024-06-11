@@ -25,4 +25,5 @@ console.log(`Datum: ${datum_2}`);
 // Gesambilanz
 let einnahmen;
 let ausgaben;
-let bilanz;
+let bilanz = betrag_1 + betrag_2;
+console.log(`Bilanz: ${bilanz}`);
