@@ -9,20 +9,18 @@ const haushaltsbuch = {
     bilanz: 0,
   },
 
-  neuer_eintrag: {
-    titel: null, // = "nichts" oder "",
-    typ: null,
-    betrag: null,
-    datum: null,
-  },
+  eintraege: [],
 
   eintrag_erfassen() {
-    this.neuer_eintrag.titel = prompt("Titel: (z.B. Einkaufen, Gehalt");
-    this.neuer_eintrag.typ = prompt("Typ: (Einnahme oder Ausgabe)");
-    this.neuer_eintrag.betrag = parseInt(prompt("Betrag: (in Cent)")); // parseInt = Methode -> verwandelt einen String in einen Integer/Number
-    this.neuer_eintrag.datum = prompt("Datum: (jjjj-mm-tt)");
+    this.eintraege.push({
+      titel: prompt("Titel: (z.B. Einkaufen, Gehalt"),
+      typ: prompt("Typ: (Einnahme oder Ausgabe)"),
+      betrag: parseInt(prompt("Betrag: (in Cent)")),
+      datum: prompt("Datum: (jjjj-mm-tt)"),
+    });
   },
 
+  /* 
   eintrag_ausgeben() {
     console.log(`Titel: ${this.neuer_eintrag.titel}
     Typ: ${this.neuer_eintrag.typ}
@@ -53,26 +51,19 @@ const haushaltsbuch = {
       Bilanz ist positiv: ${this.gesamtbilanz.bilanz >= 0}`);
   },
 
+
+  */
+
   eintrag_hinzufuegen() {
     this.eintrag_erfassen();
-    this.eintrag_ausgeben(
-      this.neuer_eintrag.titel,
-      this.neuer_eintrag.typ,
-      this.neuer_eintrag.betrag,
-      this.neuer_eintrag.datum
-    );
-    this.eintrag_mit_gesamtbilanz_verrechnen(
-      this.neuer_eintrag.typ,
-      this.neuer_eintrag.betrag
-    );
-    this.gesamtbilanz_ausgeben(
-      this.gesamtbilanz.einnahmen,
-      this.gesamtbilanz.ausgaben,
-      this.gesamtbilanz.bilanz
-    );
+    // this.eintrag_ausgeben();
+    // this.eintrag_mit_gesamtbilanz_verrechnen();
+    // this.gesamtbilanz_ausgeben();
   },
 };
 haushaltsbuch.eintrag_hinzufuegen();
 haushaltsbuch.eintrag_hinzufuegen();
 haushaltsbuch.eintrag_hinzufuegen();
 haushaltsbuch.eintrag_hinzufuegen();
+
+console.log(haushaltsbuch);
