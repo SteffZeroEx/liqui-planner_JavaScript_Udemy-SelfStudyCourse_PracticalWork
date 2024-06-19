@@ -1,6 +1,6 @@
 "use strict";
 
-// Gesambilanz
+// Gesamtbilanz
 
 const haushaltsbuch = {
   gesamtbilanz: {
@@ -11,6 +11,7 @@ const haushaltsbuch = {
 
   eintraege: [],
 
+
   eintrag_erfassen() {
     this.eintraege.push({
       titel: prompt("Titel: (z.B. Einkaufen, Gehalt"),
@@ -20,50 +21,71 @@ const haushaltsbuch = {
     });
   },
 
-  /* 
-  eintrag_ausgeben() {
-    console.log(`Titel: ${this.neuer_eintrag.titel}
-    Typ: ${this.neuer_eintrag.typ}
-    Betrag: ${this.neuer_eintrag.betrag} in ct
-    Datum: ${this.neuer_eintrag.datum}`);
+  
+  eintraege_ausgeben() {
+    console.clear();
+    this.eintraege.forEach(function (eintrag) {
+      console.log(`Titel: ${eintrag.titel}\n`
+    + `Typ: ${eintrag.typ}\n`
+    + `Betrag: ${eintrag.betrag} in ct\n`
+    + `Datum: ${eintrag.datum}`);
+    });
   },
+  
 
-  eintrag_mit_gesamtbilanz_verrechnen() {
-    switch (this.neuer_eintrag.typ) {
+  gesamtbilanz_erstellen() {
+    let neue_gesamtbilanz = {
+      einnahmen: 0,
+      ausgaben: 0,
+      bilanz: 0
+    };
+    this.eintraege.forEach(function (eintrag) {
+      switch (eintrag.typ) {
       case "Einnahme":
-        this.gesamtbilanz.einnahmen += this.neuer_eintrag.betrag;
-        this.gesamtbilanz.bilanz += this.neuer_eintrag.betrag;
+        neue_gesamtbilanz.einnahmen += eintrag.betrag;
+        neue_gesamtbilanz.bilanz += eintrag.betrag;
         break;
       case "Ausgabe":
-        this.gesamtbilanz.ausgaben += this.neuer_eintrag.betrag;
-        this.gesamtbilanz.bilanz -= this.neuer_eintrag.betrag;
+        neue_gesamtbilanz.ausgaben += eintrag.betrag;
+        neue_gesamtbilanz.bilanz -= eintrag.betrag;
         break;
       default:
-        console.log(`Der Typ ${this.neuer_eintrag.typ} ist nicht bekannt!`);
+        console.log(`Der Typ ${eintrag.typ} ist nicht bekannt!`);
         break;
+      }
     }
-  },
+  );
+  this.gesamtbilanz = neue_gesamtbilanz;
+},
+
 
   gesamtbilanz_ausgeben() {
-    console.log(`Einnahmen: ${this.gesamtbilanz.einnahmen} ct
-      Ausgabe: ${this.gesamtbilanz.ausgaben} ct
-      Bilanz: ${this.gesamtbilanz.bilanz} ct
-      Bilanz ist positiv: ${this.gesamtbilanz.bilanz >= 0}`);
+    console.log(
+        `Einnahmen: ${this.gesamtbilanz.einnahmen} ct\n`
+      + `Ausgabe: ${this.gesamtbilanz.ausgaben} ct\n`
+      + `Bilanz: ${this.gesamtbilanz.bilanz} ct\n`
+      + `Bilanz ist positiv: ${this.gesamtbilanz.bilanz >= 0}\n`
+    );
   },
 
 
-  */
+  
 
   eintrag_hinzufuegen() {
-    this.eintrag_erfassen();
-    // this.eintrag_ausgeben();
-    // this.eintrag_mit_gesamtbilanz_verrechnen();
-    // this.gesamtbilanz_ausgeben();
+    let weiterer_eintrag = true;
+
+    while (weiterer_eintrag) {
+        this.eintrag_erfassen();
+        this.eintraege_ausgeben();
+        this.gesamtbilanz_erstellen();
+        this.gesamtbilanz_ausgeben();
+        weiterer_eintrag = confirm("Weiteren Eintrag hinzufügen?");
+    } 
+    
   },
 };
+
 haushaltsbuch.eintrag_hinzufuegen();
-haushaltsbuch.eintrag_hinzufuegen();
-haushaltsbuch.eintrag_hinzufuegen();
-haushaltsbuch.eintrag_hinzufuegen();
+
 
 console.log(haushaltsbuch);
