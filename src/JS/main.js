@@ -99,46 +99,6 @@ const haushaltsbuch = {
     });
   },
 
-  // wird durch HTML-Ausgabe ersetzt
-
-  // eintraege_ausgeben() {
-  //   console.clear();
-  //   this.eintraege.forEach(function (eintrag) {
-  //     console.log(
-  //       `Titel: ${eintrag.get("titel")}\n` +
-  //         `Typ: ${eintrag.get("typ")}\n` +
-  //         `Betrag: ${(eintrag.get("betrag") / 100).toFixed(2)} €\n` +
-  //         `Datum: ${eintrag.get("datum").toLocalDateString("de-DE", {
-  //           year: "numeric",
-  //           month: "2-digit",
-  //           day: "2-digit",
-  //         })}` +
-  //         `Timestamp: ${eintrag.get("timestamp")}\n`
-  //     );
-  //   });
-  // },
-
-  /*
-<ul>
-          <li class="ausgabe" data-timestamp="">
-            <span class="datum">03.02.2020</span>
-            <span class="titel">Miete</span>
-            <span class="betrag">545,00 €</span>
-            <button title="none" class="entfernen-button">
-              <i class="fas fa-trash"></i>
-            </button>
-          </li>
-          <li class="einnahme" data-timestamp="">
-            <span class="datum">01.02.2020</span>
-            <span class="titel">Gehalt</span>
-            <span class="betrag">2064,37 €</span>
-            <button title="none" class="entfernen-button">
-              <i class="fas fa-trash"></i>
-            </button>
-          </li>
-        </ul>
-*/
-
   html_eintrag_generieren(eintrag) {
     // listenpunkt erstellen
     let listenpunkt = document.createElement("li");
@@ -194,7 +154,7 @@ const haushaltsbuch = {
   gesamtbilanz_erstellen() {
     let neue_gesamtbilanz = new Map();
     neue_gesamtbilanz.set("einnahmen", 0);
-    neue_gesamtbilanz.set("ausgabe", 0);
+    neue_gesamtbilanz.set("ausgaben", 0);
     neue_gesamtbilanz.set("bilanz", 0);
     this.eintraege.forEach(function (eintrag) {
       switch (eintrag.get("typ")) {
@@ -214,16 +174,68 @@ const haushaltsbuch = {
     this.gesamtbilanz = neue_gesamtbilanz;
   },
 
-  // gesamtbilanz_ausgeben() {
-  //   console.log(
-  //     `Einnahmen: ${(this.gesamtbilanz.get("einnahmen") / 100).toFixed(
-  //       2
-  //     )} €\n` +
-  //       `Ausgabe: ${(this.gesamtbilanz.get("ausgaben") / 100).toFixed(2)} €\n` +
-  //       `Bilanz: ${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2)} €\n` +
-  //       `Bilanz ist positiv: ${this.gesamtbilanz.get("bilanz") / 100 >= 0}\n`
-  //   );
-  // },
+
+  html_gesamtbilanz_generieren() {
+    let gesamtbilanz = document.createElement("aside");
+    gesamtbilanz.setAttribute("id", "gesamtbilanz");
+
+    let ueberschrift = document.createElement("h1");
+    ueberschrift.textContent = "Gesamtbilanz";
+    gesamtbilanz.insertAdjacentElement("afterbegin", ueberschrift);
+
+    let einnahmen_zeile = document.createElement("div");
+    einnahmen_zeile.setAttribute("class", "gesamtbilanz-zeile einnahmen");
+
+    let einnahmen_titel = document.createElement("span");
+    einnahmen_titel.textContent = "Einnahmen:";
+    einnahmen_zeile.insertAdjacentElement("afterbegin", einnahmen_titel);
+
+    let einnahmen_betrag = document.createElement("span");
+    einnahmen_betrag.textContent =  `${(this.gesamtbilanz.get("einnahmen") / 100).toFixed(2).replace(/\./, ",")} €`;
+    einnahmen_zeile.insertAdjacentElement("beforeend", einnahmen_betrag);
+
+    gesamtbilanz.insertAdjacentElement("beforeend", einnahmen_zeile);
+
+    let ausgaben_zeile = document.createElement("div");
+    ausgaben_zeile.setAttribute("class", "gesamtbilanz-zeile ausgaben");
+
+    let ausgaben_titel = document.createElement("span");
+    ausgaben_titel.textContent = "Ausgaben:";
+    ausgaben_zeile.insertAdjacentElement("afterbegin", ausgaben_titel);
+
+    let ausgaben_betrag = document.createElement("span");
+    ausgaben_betrag.textContent = `${(this.gesamtbilanz.get("ausgaben") / 100).toFixed(2).replace(/\./, ",")} €`;
+    ausgaben_zeile.insertAdjacentElement("beforeend", ausgaben_betrag);
+
+    gesamtbilanz.insertAdjacentElement("beforeend", ausgaben_zeile);
+
+    let bilanz_zeile = document.createElement("div");
+    bilanz_zeile.setAttribute("class", "gesamtbilanz-zeile bilanz");
+
+    let bilanz_titel = document.createElement("span");
+    bilanz_titel.textContent = "Bilanz:";
+    bilanz_zeile.insertAdjacentElement("afterbegin", bilanz_titel);
+
+    let bilanz_betrag = document.createElement("span");
+    if (this.gesamtbilanz.get("bilanz") >= 0 ) {
+      bilanz_betrag.setAttribute("class", "positiv");
+    } else if (this.gesamtbilanz.get("bilanz") < 0) {
+      bilanz_betrag.setAttribute("class", "negativ");
+    }
+      bilanz_betrag.textContent = `${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2).replace(/\./, ",")} €`;
+    bilanz_zeile.insertAdjacentElement("beforeend", bilanz_betrag);
+
+    gesamtbilanz.insertAdjacentElement("beforeend", bilanz_zeile);
+
+    return gesamtbilanz;
+  },
+
+  gesamtbilanz_anzeigen() {
+    document.querySelectorAll("#gesamtbilanz").forEach(function (gesamtbilanz) {
+      gesamtbilanz.remove();
+    });
+    document.querySelector("body").insertAdjacentElement("beforeend", this.html_gesamtbilanz_generieren());
+  },
 
   eintrag_hinzufuegen() {
     let weiterer_eintrag = true;
@@ -234,7 +246,7 @@ const haushaltsbuch = {
         this.eintraege_sortieren();
         this.eintraege_anzeigen();
         this.gesamtbilanz_erstellen();
-        // this.gesamtbilanz_ausgeben();
+        this.gesamtbilanz_anzeigen();
       } else {
         this.fehler = [];
       }
