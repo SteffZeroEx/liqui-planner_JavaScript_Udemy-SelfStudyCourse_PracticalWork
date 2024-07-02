@@ -1,11 +1,29 @@
 "use strict";
 
 const eingabeformular = {
+  absenden_event_hinzufügen(eingabeformular) {
+    eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e => {
+      e.preventDefault();
+      // Formulardaten holen
+      // Formulardaten verarbeiten
+      // Formulardaten validieren
+      // Wenn die Formulardaten valide sind
+        // Eintrag zum Haushaltsbuch hinzufügen
+        // wenn bereits Fehlermeldung angezeigt wird
+            // Fehlermeldung entfernen
+        // Formular zurücksetzen
+        // Datum auf den heutigen Tag setzen
+      // wenn die Formulardaten NICHT valide sind
+        // wenn bereits Fehlermeldung angezeigt wird
+            // Fehlermeldung entfernen
+        // Fehlermeldung im Eingabeformular-Container anzeigen
+    });
+  },
 
-    html_generieren(){
-        let eingabeformular = document.createElement("section");
-        eingabeformular.setAttribute("id", "eingabeformular-container");
-        eingabeformular.innerHTML = `<form id="eingabeformular" action="#" method="get"></form>
+  html_generieren() {
+    let eingabeformular = document.createElement("section");
+    eingabeformular.setAttribute("id", "eingabeformular-container");
+    eingabeformular.innerHTML = `<form id="eingabeformular" action="#" method="get"></form>
       
       <div class="eingabeformular-zeile">
         <h1>Neue Einnahme / Ausgabe hinzufügen</h1>
@@ -69,10 +87,11 @@ const eingabeformular = {
       <div class="eingabeformular-zeile">
         <button class="standard" type="submit" form="eingabeformular">Hinzufügen</button>
       </div>`;
-
-      return eingabeformular;
-    },
-    anzeigen(){
-        document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.html_generieren());
-    },
+    this.absenden_event_hinzufügen(eingabeformular);
+    return eingabeformular;
+  },
+  anzeigen() {
+    document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.html_generieren());
+    // Datum auf den heutigen Tag setzen
+  },
 };
