@@ -14,9 +14,8 @@ const eingabeformular = {
     }
   },
 
-  formulardaten_verarbeiten (formulardaten){
+  formulardaten_verarbeiten(formulardaten){
     let typ;
-
     if (formulardaten.einnahme === true) {
       typ = "einnahme";
     } else if (formulardaten.ausgabe === true) {
@@ -31,14 +30,33 @@ const eingabeformular = {
     }
   },
 
+  formulardaten_validieren(formulardaten) {
+
+    let fehler = [];
+    if (formulardaten.titel === "") {
+      fehler.push("Titel");
+    }
+    if (formulardaten.typ === undefined || formulardaten.typ.match(/^(?:einnahme|ausgabe)$/i) === null) {
+      fehler.push("Typ");
+    }
+    if (isNaN(formulardaten.betrag)) {
+      fehler.push("Betrag");
+    }
+    if (formulardaten.datum === null) {
+      fehler.push("Datum");
+    }
+    return fehler;
+  },
+
 
   absenden_event_hinzufügen(eingabeformular) {
     eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e => {
       e.preventDefault();
       // Formulardaten holen und Formulardaten verarbeiten
-      console.log(e);
       let formulardaten = this.formulardaten_verarbeiten(this.formulardaten_holen(e));
       console.log(formulardaten);
+      let formular_fehler = this.formulardaten_validieren(formulardaten);
+      console.log(formular_fehler);
 
       // Formulardaten validieren
       // Wenn die Formulardaten valide sind
@@ -73,7 +91,7 @@ const eingabeformular = {
             name="titel"
             placeholder="z.B. Einkaufen"
             size="10"
-            title="Titel des Eintrags" />
+            title="Titel des Eintrags"/>
           <input
             type="radio"
             id="einnahme"
@@ -105,7 +123,7 @@ const eingabeformular = {
             placeholder="z.B. 10,42"
             size="10"
             step="0.01"
-            title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)" />
+            title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)"/>
           <label for="datum">Datum</label>
           <input
             type="date"
@@ -114,7 +132,7 @@ const eingabeformular = {
             form="eingabeformular"
             placeholder="jjjj-mm-tt"
             size="10"
-            title="Datum des Eintrags (Format: jjjj-mm-tt)" />
+            title="Datum des Eintrags (Format: jjjj-mm-tt)"/>
         </div>
       </div>
       
