@@ -53,64 +53,46 @@ const eingabeformular = {
   absenden_event_hinzufügen(eingabeformular) {
     eingabeformular.querySelector("#eingabeformular").addEventListener("submit", (e) => {
       e.preventDefault();
-      // Formulardaten holen und Formulardaten verarbeiten
       let formulardaten = this.formulardaten_verarbeiten(this.formulardaten_holen(e));
-      console.log(formulardaten);
-      // Formulardaten validieren
       let formular_fehler = this.formulardaten_validieren(formulardaten);
-      console.log(formular_fehler);
-
-      // Wenn die Formulardaten valide sind
       if (formular_fehler.length === 0) {
-        // Eintrag zum Haushaltsbuch hinzufügen
         haushaltsbuch.eintrag_hinzufuegen(formulardaten);
-
-        // wenn bereits Fehlermeldung angezeigt wird
-        // Fehlermeldung entfernen
         this.fehlerbox_entfernen();
-        // Formular zurücksetzen
         e.target.reset();
-        // Datum auf den heutigen Tag setzen
         this.datum_aktualisieren();
       } else {
-        // wenn bereits Fehlermeldung angezeigt wird
-        // Fehlermeldung entfernen
         this.fehlerbox_entfernen();
-        // Fehlermeldung im Eingabeformular-Container anzeigen
         this.fehlerbox_anzeigen(formular_fehler);
       }
-
-      // wenn die Formulardaten NICHT valide sind
     });
   },
 
-  html_fehlerbox_generieren (formular_fehler){
+  html_fehlerbox_generieren(formular_fehler) {
+    let fehlerbox = document.createElement("div");
+    fehlerbox.setAttribute("class", "fehlerbox");
 
-   let fehlerbox = document.createElement("div");
-   fehlerbox.setAttribute("class", "fehlerbox");
+    let fehlertext = document.createElement("span");
+    fehlertext.textContent = "Folgende Felder wurde nicht korrekt ausgefüllt:";
+    fehlerbox.insertAdjacentElement("afterbegin", fehlertext);
 
-   let fehlertext = document.createElement("span");
-   fehlertext.textContent = "Folgende Felder wurde nicht korrekt ausgefüllt:"
-   fehlerbox.insertAdjacentElement("afterbegin", fehlertext);
-
-   let fehlerliste = document.createElement("ul");
-   formular_fehler.forEach(fehler => {
-    let fehlerlistenpunkt = document.createElement("li");
-    fehlerlistenpunkt.textContent = fehler;
-    fehlerliste.insertAdjacentElement("beforeend", fehlerlistenpunkt);
-   });
-   fehlerbox.insertAdjacentElement("beforeend", fehlerliste);
-   return fehlerbox;
+    let fehlerliste = document.createElement("ul");
+    formular_fehler.forEach((fehler) => {
+      let fehlerlistenpunkt = document.createElement("li");
+      fehlerlistenpunkt.textContent = fehler;
+      fehlerliste.insertAdjacentElement("beforeend", fehlerlistenpunkt);
+    });
+    fehlerbox.insertAdjacentElement("beforeend", fehlerliste);
+    return fehlerbox;
   },
 
-  fehlerbox_anzeigen(formular_fehler){
+  fehlerbox_anzeigen(formular_fehler) {
     let eingabeformular_container = document.querySelector("#eingabeformular-container");
     if (eingabeformular_container !== null) {
       eingabeformular_container.insertAdjacentElement("afterbegin", this.html_fehlerbox_generieren(formular_fehler));
     }
   },
 
-  fehlerbox_entfernen(){
+  fehlerbox_entfernen() {
     let bestehende_fehlerbox = document.querySelector(".fehlerbox");
     if (bestehende_fehlerbox !== null) {
       bestehende_fehlerbox.remove();
@@ -189,7 +171,6 @@ const eingabeformular = {
   },
   anzeigen() {
     document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.html_generieren());
-    // Datum auf den heutigen Tag setzen
     this.datum_aktualisieren();
   },
 };
