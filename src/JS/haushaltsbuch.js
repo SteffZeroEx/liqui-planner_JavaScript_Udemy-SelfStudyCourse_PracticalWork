@@ -10,7 +10,7 @@ const haushaltsbuch = {
     neuer_eintrag.set("betrag", formulardaten.betrag);
     neuer_eintrag.set("typ", formulardaten.typ);
     neuer_eintrag.set("datum", formulardaten.datum);
-    neuer_eintrag.set("timestamp", Date.now);
+    neuer_eintrag.set("timestamp", Date.now());
     this.eintraege.push(neuer_eintrag);
     this.eintraege_sortieren();
     this.eintraege_anzeigen();
@@ -18,13 +18,13 @@ const haushaltsbuch = {
     this.gesamtbilanz_anzeigen();
   },
 
-  eintrag_entfernen(timestamp){
+  eintrag_entfernen(timestamp) {
     let start_index;
     for (let i = 0; i < this.eintraege.length; i++) {
       if (this.eintraege[i].get("timestamp") === parseInt(timestamp)) {
         start_index = i;
         break;
-      }    
+      }
     }
     this.eintraege.splice(start_index, 1);
     this.eintraege_anzeigen();
@@ -39,6 +39,7 @@ const haushaltsbuch = {
       } else if (eintrag_a.get("datum") < eintrag_b.get("datum")) {
         return 1;
       } else {
+        return 0;
       }
     });
   },
@@ -85,8 +86,8 @@ const haushaltsbuch = {
     return listenpunkt;
   },
 
-  eintrag_entfernen_event_hinzufuegen(listenpunkt){
-    listenpunkt.querySelector(".entfernen-button").addEventListener("click", e => {
+  eintrag_entfernen_event_hinzufuegen(listenpunkt) {
+    listenpunkt.querySelector(".entfernen-button").addEventListener("click", (e) => {
       let timestamp = e.target.parentElement.getAttribute("data-timestamp");
       this.eintrag_entfernen(timestamp);
     });
@@ -94,10 +95,10 @@ const haushaltsbuch = {
 
   eintraege_anzeigen() {
     document.querySelectorAll(".monatsliste ul").forEach((eintragsliste) => eintragsliste.remove());
-
     let eintragsliste = document.createElement("ul");
-    this.eintraege.forEach((eintrag) => eintragsliste.insertAdjacentElement("beforeend", this.html_eintrag_generieren(eintrag)));
-
+    this.eintraege.forEach((eintrag) =>
+      eintragsliste.insertAdjacentElement("beforeend", this.html_eintrag_generieren(eintrag))
+    );
     document.querySelector(".monatsliste").insertAdjacentElement("afterbegin", eintragsliste);
   },
 
@@ -181,7 +182,6 @@ const haushaltsbuch = {
 
   gesamtbilanz_anzeigen() {
     document.querySelectorAll("#gesamtbilanz").forEach((gesamtbilanz) => gesamtbilanz.remove());
-
     document.querySelector("body").insertAdjacentElement("beforeend", this.html_gesamtbilanz_generieren());
   },
 };
