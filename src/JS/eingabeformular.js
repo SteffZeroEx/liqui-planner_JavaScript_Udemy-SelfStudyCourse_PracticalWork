@@ -3,19 +3,31 @@
 const eingabeformular = {
 
   formulardaten_holen(e){
-    let typ;
-
-    if (e.target.elements.ausgabe.checked === true){
-      typ = "ausgabe";
-    } else if (e.target.elements.einnahme.checked) {
-      typ = "einnahme";
-    }
+    
 
     return {
       titel: e.target.elements.titel.value,
       betrag: e.target.elements.betrag.value,
-      typ: typ,
+      einnahme: e.target.elements.einnahme.checked,
+      ausgabe: e.target.elements.ausgabe.checked,
       datum: e.target.elements.datum.valueAsDate
+    }
+  },
+
+  formulardaten_verarbeiten (formulardaten){
+    let typ;
+
+    if (formulardaten.einnahme === true) {
+      typ = "einnahme";
+    } else if (formulardaten.ausgabe === true) {
+      typ = "ausgabe";
+    }
+
+    return {
+      titel: formulardaten.titel.trim(),
+      typ: typ,
+      betrag: parseFloat(formulardaten.betrag) * 100,
+      datum: formulardaten.datum
     }
   },
 
@@ -23,22 +35,22 @@ const eingabeformular = {
   absenden_event_hinzufügen(eingabeformular) {
     eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e => {
       e.preventDefault();
-      // Formulardaten holen
+      // Formulardaten holen und Formulardaten verarbeiten
       console.log(e);
-      let formulardaten = this.formulardaten_holen(e);
+      let formulardaten = this.formulardaten_verarbeiten(this.formulardaten_holen(e));
       console.log(formulardaten);
-      // Formulardaten verarbeiten
+
       // Formulardaten validieren
       // Wenn die Formulardaten valide sind
-        // Eintrag zum Haushaltsbuch hinzufügen
-        // wenn bereits Fehlermeldung angezeigt wird
-            // Fehlermeldung entfernen
-        // Formular zurücksetzen
-        // Datum auf den heutigen Tag setzen
+      // Eintrag zum Haushaltsbuch hinzufügen
+      // wenn bereits Fehlermeldung angezeigt wird
+      // Fehlermeldung entfernen
+      // Formular zurücksetzen
+      // Datum auf den heutigen Tag setzen
       // wenn die Formulardaten NICHT valide sind
-        // wenn bereits Fehlermeldung angezeigt wird
-            // Fehlermeldung entfernen
-        // Fehlermeldung im Eingabeformular-Container anzeigen
+      // wenn bereits Fehlermeldung angezeigt wird
+      // Fehlermeldung entfernen
+      // Fehlermeldung im Eingabeformular-Container anzeigen
     });
   },
 
