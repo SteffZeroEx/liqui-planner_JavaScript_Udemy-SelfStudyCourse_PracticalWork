@@ -1,20 +1,17 @@
 "use strict";
 
 const eingabeformular = {
-
-  formulardaten_holen(e){
-    
-
+  formulardaten_holen(e) {
     return {
       titel: e.target.elements.titel.value,
       betrag: e.target.elements.betrag.value,
       einnahme: e.target.elements.einnahme.checked,
       ausgabe: e.target.elements.ausgabe.checked,
-      datum: e.target.elements.datum.valueAsDate
-    }
+      datum: e.target.elements.datum.valueAsDate,
+    };
   },
 
-  formulardaten_verarbeiten(formulardaten){
+  formulardaten_verarbeiten(formulardaten) {
     let typ;
     if (formulardaten.einnahme === true) {
       typ = "einnahme";
@@ -26,12 +23,11 @@ const eingabeformular = {
       titel: formulardaten.titel.trim(),
       typ: typ,
       betrag: parseFloat(formulardaten.betrag) * 100,
-      datum: formulardaten.datum
-    }
+      datum: formulardaten.datum,
+    };
   },
 
   formulardaten_validieren(formulardaten) {
-
     let fehler = [];
     if (formulardaten.titel === "") {
       fehler.push("Titel");
@@ -47,28 +43,41 @@ const eingabeformular = {
     }
     return fehler;
   },
-
+  datum_aktualisieren() {
+    let datums_input = document.querySelector("#datum");
+    if (datums_input !== null) {
+      datums_input.valueAsDate = new Date();
+    }
+  },
 
   absenden_event_hinzufügen(eingabeformular) {
-    eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e => {
+    eingabeformular.querySelector("#eingabeformular").addEventListener("submit", (e) => {
       e.preventDefault();
       // Formulardaten holen und Formulardaten verarbeiten
       let formulardaten = this.formulardaten_verarbeiten(this.formulardaten_holen(e));
       console.log(formulardaten);
+      // Formulardaten validieren
       let formular_fehler = this.formulardaten_validieren(formulardaten);
       console.log(formular_fehler);
 
-      // Formulardaten validieren
       // Wenn die Formulardaten valide sind
-      // Eintrag zum Haushaltsbuch hinzufügen
-      // wenn bereits Fehlermeldung angezeigt wird
-      // Fehlermeldung entfernen
-      // Formular zurücksetzen
-      // Datum auf den heutigen Tag setzen
+      if (formular_fehler.length === 0) {
+        // Eintrag zum Haushaltsbuch hinzufügen
+        haushaltsbuch.eintrag_hinzufuegen(formulardaten);
+
+        // wenn bereits Fehlermeldung angezeigt wird
+        // Fehlermeldung entfernen
+        // Formular zurücksetzen
+        e.target.reset();
+        // Datum auf den heutigen Tag setzen
+        this.datum_aktualisieren();
+      } else {
+        // wenn bereits Fehlermeldung angezeigt wird
+        // Fehlermeldung entfernen
+        // Fehlermeldung im Eingabeformular-Container anzeigen
+      }
+
       // wenn die Formulardaten NICHT valide sind
-      // wenn bereits Fehlermeldung angezeigt wird
-      // Fehlermeldung entfernen
-      // Fehlermeldung im Eingabeformular-Container anzeigen
     });
   },
 
@@ -145,5 +154,6 @@ const eingabeformular = {
   anzeigen() {
     document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.html_generieren());
     // Datum auf den heutigen Tag setzen
+    this.datum_aktualisieren();
   },
 };
