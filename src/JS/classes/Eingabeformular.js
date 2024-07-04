@@ -1,18 +1,16 @@
 "use sctrict";
 
 class Eingabeformular {
-
-    constructor(){
-        this._html = this._html_generieren();
-
-    }
+  constructor() {
+    this._html = this._html_generieren();
+  }
 
   _formulardaten_holen(e) {
     return {
       titel: e.target.elements.titel.value,
       betrag: e.target.elements.betrag.value,
       einnahme: e.target.elements.einnahme.checked,
-      datum: e.target.elements.datum.valueAsDate,
+      datum: e.target.elements.datum.valueAsDate
     };
   }
 
@@ -46,7 +44,7 @@ class Eingabeformular {
     }
   }
 
-  _absenden_event_hinzufügen(eingabeformular) {
+  _absenden_event_hinzufuegen(eingabeformular) {
     eingabeformular.querySelector("#eingabeformular").addEventListener("submit", (e) => {
       e.preventDefault();
       let formulardaten = this._formulardaten_verarbeiten(this._formulardaten_holen(e));
@@ -133,13 +131,13 @@ class Eingabeformular {
       <div class="eingabeformular-zeile">
         <button class="standard" type="submit" form="eingabeformular">Hinzufügen</button>
       </div>`;
-    this._absenden_event_hinzufügen(eingabeformular);
+    this._absenden_event_hinzufuegen(eingabeformular);
     return eingabeformular;
   }
   anzeigen() {
     let navigationsleiste = document.querySelector("body");
     if (navigationsleiste !== null) {
-      navigationsleiste.insertAdjacentElement("afterbegin", this._html_generieren());
+      navigationsleiste.insertAdjacentElement("afterbegin", this._html);
       this._datum_aktualisieren();
     }
   }
