@@ -1,0 +1,6 @@
+"use sctrict";
+
+class Fehler {
+
+    
+}

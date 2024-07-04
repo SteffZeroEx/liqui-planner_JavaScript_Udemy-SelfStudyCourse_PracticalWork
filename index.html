@@ -16,41 +16,22 @@
   </head>
 
   <body>
-
-    
-    <!-- Navigationsleiste -->
-    <nav id="navigationsleiste">
-      <a href="index.html"><span id="markenname">Liqui-Planner</span></a>
-    </nav>
-
-    
-
-    <!-- Monatslisten -->
     <section id="monatslisten">
-      <!-- Monatsliste -->
-      <article class="monatsliste">
-        <!-- Titel -->
-        <!-- <h2>
-                <span class="monat-jahr">Februar 2020</span>
-                <span class="monatsbilanz negativ">-326,84€</span>
-            </h2> -->
-        <!-- Eintrags-Liste -->
-      </article>
+      <article class="monatsliste"></article>
     </section>
-
-    <!-- Gesamtbilanz -->
-    <aside id="gesamtbilanz">
-        <h1>Gesamtbilanz</h1>
-        <div class="gesamtbilanz-zeile einnahmen"><span>Einnahmen:</span><span>0,00€</span></div>
-        <div class="gesamtbilanz-zeile ausgaben"><span>Ausgaben:</span><span>0,00€</span></div>
-        <div class="gesamtbilanz-zeile bilanz"><span>Bilanz:</span><span class="positiv">0,00€</span></div>
-    </aside>
+   
     <!-- JavaScript Datei des Praxisprojekts -->
-    <script src="./src/JS/haushaltsbuch.js" defer></script>
-    <script src="./src/JS/eingabeformular.js" defer></script>
+     <script src="./src/JS/classes/Navigationsleiste.js"></script>
+     <script src="./src/JS/classes/Eingabeformular.js"></script>
+     <script src="./src/JS/classes/Fehler.js"></script>
+     <script src="./src/JS/classes/Haushaltsbuch.js"></script>
+     <script src="./src/JS/classes/Eintrag.js"></script>
+     <script src="./src/JS/classes/Monatslistensammlung.js"></script>
+     <script src="./src/JS/classes/Monatsliste.js"></script>
+     <script src="./src/JS/classes/Gesamtbilanz.js"></script>
     <script src="./src/JS/main.js" defer></script>
 
     <!-- Fontawesome -->
-    <script src="./src/fonts/fontawesome/all.min.js"></script>
+    <script src="./src/fonts/fontawesome/all.min.js" defer></script>
   </body>
 </html>
