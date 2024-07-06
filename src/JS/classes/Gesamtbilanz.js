@@ -1,5 +1,4 @@
-"use sctrict";
-class Gesamtbilanz {
+export default class Gesamtbilanz {
   constructor() {
     this._einnahmen = 0;
     this._ausgaben = 0;

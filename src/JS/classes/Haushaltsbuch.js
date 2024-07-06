@@ -1,13 +1,15 @@
-"use sctrict";
-
-class Haushaltsbuch {
+import Navigationsleiste from "./Navigationsleiste.js";
+import Eingabeformular from "./Eingabeformular.js";
+import Monatslistensammlung from "./Monatslistensammlung.js";
+import Gesamtbilanz from "./Gesamtbilanz.js";
+import Eintrag from "./Eintrag.js";
+ export default class Haushaltsbuch {
   constructor() {
     this._eintraege = [];
     this._navigationsleiste = new Navigationsleiste();
     this._eingabeformular = new Eingabeformular();
     this._monatslistensammlung = new Monatslistensammlung();
     this._gesamtbilanz = new Gesamtbilanz();
-    console.log(this);
     this._wiederherstellen();
   }
 

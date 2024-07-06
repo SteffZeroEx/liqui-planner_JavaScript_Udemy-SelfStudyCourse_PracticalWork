@@ -1,5 +1,4 @@
-"use sctrict";
-class Monatsliste {
+export default class Monatsliste {
   constructor(jahr, monat) {
     this._jahr = jahr;
     this._monat = monat;

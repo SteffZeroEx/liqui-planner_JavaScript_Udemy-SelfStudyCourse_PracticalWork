@@ -1,6 +1,6 @@
-"use sctrict";
+import haushaltsbuch from "./../main.js";
 
-class Eintrag {
+export default class Eintrag {
   constructor(titel, betrag, typ, datum) {
     this._titel = titel;
     this._betrag = betrag;

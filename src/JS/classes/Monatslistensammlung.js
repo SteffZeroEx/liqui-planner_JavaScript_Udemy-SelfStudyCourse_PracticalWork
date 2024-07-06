@@ -1,6 +1,6 @@
-"use sctrict";
+import Monatsliste from "./Monatsliste.js";
 
-class Monatslistensammlung {
+export default class Monatslistensammlung {
   constructor() {
     this._monatslisten = [];
     this._html = this._html_generieren();
